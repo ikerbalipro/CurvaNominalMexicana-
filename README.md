@@ -12,7 +12,7 @@ Análisis y pronóstico de la curva de rendimientos nominal de México, a partir
 
 ## Resultados principales
 
-- **Hay estructura.** Las nueve tasas tienen correlaciones de 0.73 o más, y tres componentes principales explican el 99.5% de la varianza (94.3%, 4.6% y 0.7%).
+- **Hay estructura.** Las nueve tasas tienen correlaciones de 0.73 o más, y tres componentes principales explican el 99.5% de la varianza (94.3%, 4.6% y 0.7%). Representan el **nivel** (correlación de 1.00 con el promedio de las tasas), la **pendiente** (0.55 con 30 años − 28 días) y la **curvatura** (0.74).
 - **Sí se puede pronosticar.** El mejor modelo, Holt con tendencia amortiguada, reduce el RMSE frente a la caminata aleatoria en 13% a 3 meses (Diebold-Mariano, p = 0.006) y en 10% a 12 meses (p = 0.097). La mejora se concentra en los CETES; en los MBONOS ningún modelo le gana al baseline.
 - **La estructura no mejora el pronóstico.** Pronosticar los 3 componentes y reconstruir la curva da un error estadísticamente igual a pronosticar las 9 series por separado (p entre 0.24 y 0.98).
 
@@ -28,12 +28,11 @@ Estructura del notebook:
 1. Conversión del formato largo al formato ancho (una fila por mes, una columna por plazo)
 2. Análisis exploratorio: series de tiempo, valores faltantes y matriz de correlación
 3. Imputación: comparación de MICE, KNN e interpolación lineal
-4. Análisis de componentes principales
+4. Análisis de componentes principales y su interpretación (nivel, pendiente y curvatura)
 5. Enfoque individual (9 series) frente a enfoque colectivo (3 componentes)
 6. Modelos: Holt amortiguado, ARIMA y Ridge directo; baseline de caminata aleatoria y VAR como referencia
 7. Backtest con ventana expandible desde septiembre de 2014 (RMSE, MAE y prueba Diebold-Mariano)
 8. Resultados por plazo y horizonte
-9. Pronóstico a 12 meses
 
 ## Datos
 
@@ -58,10 +57,10 @@ pip install -r requirements.txt
 jupyter notebook curva_nominal.ipynb
 ```
 
-El backtest se paraleliza con `joblib` y tarda alrededor de 5 minutos.
+El backtest se paraleliza con `joblib` y el notebook completo tarda alrededor de 8 minutos.
 
 ## Limitaciones y siguientes pasos
 
 - Las tasas son de subastas mensuales, no cotizaciones simultáneas de mercado, y los plazos largos tienen hasta 30% de meses sin dato.
-- Faltan variables exógenas (tasa objetivo de Banxico, inflación, tasas de EE. UU.) y probar modelos de deep learning.
+- El problema se trató como univariado: faltan variables exógenas (tasa objetivo de Banxico, inflación, tasas de EE. UU.), ingeniería de características y probar modelos de deep learning.
 - Falta un análisis más económico: entender la curva desde el punto de vista financiero y no solo matemático.
